@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GetObjectWithName } from './RayCastHelper';
+import gsap from 'gsap';
+
 // import { distance } from 'three/webgpu';
 // import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 // import { DragControls } from 'three/addons/controls/DragControls.js';
@@ -135,6 +138,7 @@ const createPlanet = (planet) =>
     );
     planetMesh.scale.setScalar(planet.radius);
     planetMesh.position.z = planet.distance;
+    planetMesh.name = planet.name;
     return planetMesh;
   }
   
@@ -202,6 +206,15 @@ window.addEventListener("resize", () =>
   camera.aspect = window.innerWidth/ window.innerHeight;
 })
 
+let planetS;
+
+document.addEventListener("click", onClick);
+
+function onClick(Event)
+{
+  planetS = GetObjectWithName(Event, window, camera, scene, "Earth");
+  console.log(planetS);
+}
 
 //RenderLoop similar to update
 const renderLoop = () =>
