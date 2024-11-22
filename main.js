@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GetObjectWithName } from './RayCastHelper';
+import { GetObjectsOnClick, GetObjectWithName } from './RayCastHelper';
 import gsap from 'gsap';
 
 // import { distance } from 'three/webgpu';
@@ -212,8 +212,18 @@ document.addEventListener("click", onClick);
 
 function onClick(Event)
 {
-  planetS = GetObjectWithName(Event, window, camera, scene, "Earth");
+  // planetS = GetObjectWithName(Event, window, camera, scene, "Earth");
+  planetS = GetObjectsOnClick(Event, window, camera, scene);
   console.log(planetS);
+  // planetS.object.add(camera);
+  const zD = planetS.object.position;
+  camera.lookAt(planetS.object);
+  gsap.to(camera.position, {
+    z: zD.z + 8,
+    x: zD.x + 8,
+    y: zD.y + 8,
+    duration: 1.2
+  });
 }
 
 //RenderLoop similar to update
